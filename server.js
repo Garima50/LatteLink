@@ -13,6 +13,7 @@ function handleError(res, errorCode, message) {
 // Create the server
 const server = http.createServer((req, res) => {
     const ext = path.extname(req.url);
+    // set MIME types
     const contentTypeMap = {
         '.html': 'text/html',
         '.css': 'text/css',
