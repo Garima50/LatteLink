@@ -90,46 +90,47 @@
         <form id="login-form" action="/api/login" method="POST">
         <input type="text" id="username" placeholder="Username" required>
         <input type="password" id="password" placeholder="Password" required>
-        <button onclick="login()">Login</button>
+        <!-- <label>
+            <input type="checkbox" id="showPassword"> Show Password
+        </label> -->
+        <button type="submit">Login</button>
     </form>
         <div id="message" class="message"></div>
-        <p>Don't have an account? <a action="/api/register">Register here</a></p>
+        <p>Don't have an account? <a href="/api/register">Register here</a></p>
     
     </div>
 
-    <script>
-        // JavaScript functionality
-        function login() {
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const messageDiv = document.getElementById('message');
+     <!-- <script>
 
-            if (!username || !password) {
-                messageDiv.textContent = "Please fill in both fields.";
-                return;
-            }
+document.getElementById('login-form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent form from submitting normally
 
-            // Send a POST request to the server
-            fetch('/api/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password })
-            })
-            .then(response => response.text())
-            .then(data => {
-                if (data.includes('successful')) {
-                    alert('Login successful!');
-                    window.location.href = '/index';
-                    messageDiv.style.color = 'white';
-                } else {
-                    messageDiv.style.color = 'white';
-                }
-                messageDiv.textContent = data;
-            })
-            .catch(err => {
-                messageDiv.textContent = 'An error occurred: ' + err.message;
-            });
-         }
-    </script>
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const messageDiv = document.getElementById('message');
+
+    fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+    })
+    .then(response => response.text())
+    .then(data => {
+        if (data.includes('successful')) {
+            alert('Login successful!');
+            window.location.href = '/api/index'; // Redirect to homepage
+        } else {
+            messageDiv.textContent = data; // Show error message
+            messageDiv.style.color = 'red';
+        }
+    })
+    .catch(error => {
+        console.error('Login error:', error);
+        messageDiv.textContent = "An error occurred.";
+    });
+});
+
+    </script>  -->
+
 </body>
 </html>
