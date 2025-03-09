@@ -108,58 +108,24 @@
         <p>Already have an account? <a href="/login">Login here</a></p>
     </div>
 
-    <script>
-        document.getElementById('register-form').addEventListener('submit', function(event) {
-            // Prevent form submission to validate inputs first
-            event.preventDefault();
-    
-            const username = document.getElementById('username').value;
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-            const messageDiv = document.getElementById('message');
-    
-            // Debugging to check the password values
-            console.log('Password:', password);
-            console.log('Confirm Password:', confirmPassword);
-    
-            // Check if passwords match
-            if (password !== confirmPassword) {
-                messageDiv.textContent = "Passwords do not match!";
-                return;
-            }
-    
-            // Create a user object
-            const user = {
-                username: username,
-                email: email,
-                password: password
-            };
-    
-            // Send user data to server
-            fetch('/api/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(user)
-            })
-            .then(response => response.text())
-            .then(data => {
-                if (data === 'Registration successful!') {
-                    alert('Registration successful!');
-                    window.location.href = '/login'; // Redirect to login page
-                } else {
-                    messageDiv.textContent = data; // Show error message from server
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                messageDiv.textContent = "An error occurred: " + err.message;
-            });
-        });
+    <!-- <script>
+       
+       document.addEventListener("DOMContentLoaded", () => {
+    const registerForm = document.querySelector("form");
 
-    </script>
+    registerForm.addEventListener("submit", (event) => {
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+        const email = document.getElementById("email").value;
+
+        if (!username || !password || !email) {
+            event.preventDefault();
+            alert("All fields are required!");
+        }
+    });
+});
+
+    </script> -->
     
 </body>
 </html>

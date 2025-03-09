@@ -1,4 +1,4 @@
-const express = require('express') // Express for routing 
+const express = require('express') // Express for routing
 const path = require('path') // Path to handle file paths
 const fs = require('fs') // FS module for reading and writing files
 const router = express.Router() // Create an instance of Express Router
@@ -16,7 +16,7 @@ router.post('/login', (req, res, next) => {
       return res.status(302).redirect('/api/index') // Redirect to dashboard.html
     } else {
       // If user doesn't exist, redirect to the register page
-      return res.status(302).redirect('/register') // Redirect to register.html
+      return res.status(302).redirect('/api/index') // Redirect to register.html
     }
   })
 })
@@ -40,7 +40,5 @@ router.post('/register', (req, res, next) => {
     })
   })
 })
-
-
 
 module.exports = router // Export the router so it can be used in server.js
