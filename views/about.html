@@ -17,6 +17,342 @@
     h6 {
       font-family: "DM Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     }
+
+    /* copied css */ 
+
+    /* 1st time */
+
+    [data-aos] {
+    transition-property: opacity, transform;
+}
+
+body[data-aos-duration] [data-aos] {
+    transition-duration: inherit;
+}
+
+body[data-aos-delay] [data-aos] {
+    transition-delay: 0s;
+}
+
+body[data-aos-delay] [data-aos].aos-animate {
+    transition-delay: inherit;
+}
+
+/* Define durations */
+[data-aos-duration="50"] { transition-duration: 50ms; }
+[data-aos-duration="100"] { transition-duration: 0.1s; }
+[data-aos-duration="150"] { transition-duration: 0.15s; }
+[data-aos-duration="200"] { transition-duration: 0.2s; }
+[data-aos-duration="250"] { transition-duration: 0.25s; }
+[data-aos-duration="300"] { transition-duration: 0.3s; }
+[data-aos-duration="350"] { transition-duration: 0.35s; }
+[data-aos-duration="400"] { transition-duration: 0.4s; }
+[data-aos-duration="450"] { transition-duration: 0.45s; }
+[data-aos-duration="500"] { transition-duration: 0.5s; }
+[data-aos-duration="550"] { transition-duration: 0.55s; }
+[data-aos-duration="600"] { transition-duration: 0.6s; }
+[data-aos-duration="650"] { transition-duration: 0.65s; }
+[data-aos-duration="700"] { transition-duration: 0.7s; }
+[data-aos-duration="750"] { transition-duration: 0.75s; }
+[data-aos-duration="800"] { transition-duration: 0.8s; }
+[data-aos-duration="850"] { transition-duration: 0.85s; }
+[data-aos-duration="900"] { transition-duration: 0.9s; }
+[data-aos-duration="950"] { transition-duration: 0.95s; }
+[data-aos-duration="1000"] { transition-duration: 1s; }
+[data-aos-duration="1050"] { transition-duration: 1.05s; }
+[data-aos-duration="1100"] { transition-duration: 1.1s; }
+[data-aos-duration="1150"] { transition-duration: 1.15s; }
+
+/* Define delays */
+[data-aos-delay="50"].aos-animate { transition-delay: 50ms; }
+[data-aos-delay="100"].aos-animate { transition-delay: 0.1s; }
+[data-aos-delay="150"].aos-animate { transition-delay: 0.15s; }
+[data-aos-delay="200"].aos-animate { transition-delay: 0.2s; }
+[data-aos-delay="250"].aos-animate { transition-delay: 0.25s; }
+[data-aos-delay="300"].aos-animate { transition-delay: 0.3s; }
+[data-aos-delay="350"].aos-animate { transition-delay: 0.35s; }
+[data-aos-delay="400"].aos-animate { transition-delay: 0.4s; }
+[data-aos-delay="450"].aos-animate { transition-delay: 0.45s; }
+[data-aos-delay="500"].aos-animate { transition-delay: 0.5s; }
+[data-aos-delay="550"].aos-animate { transition-delay: 0.55s; }
+[data-aos-delay="600"].aos-animate { transition-delay: 0.6s; }
+[data-aos-delay="650"].aos-animate { transition-delay: 0.65s; }
+[data-aos-delay="700"].aos-animate { transition-delay: 0.7s; }
+[data-aos-delay="750"].aos-animate { transition-delay: 0.75s; }
+[data-aos-delay="800"].aos-animate { transition-delay: 0.8s; }
+[data-aos-delay="850"].aos-animate { transition-delay: 0.85s; }
+[data-aos-delay="900"].aos-animate { transition-delay: 0.9s; }
+[data-aos-delay="950"].aos-animate { transition-delay: 0.95s; }
+[data-aos-delay="1000"].aos-animate { transition-delay: 1s; }
+[data-aos-delay="1050"].aos-animate { transition-delay: 1.05s; }
+[data-aos-delay="1100"].aos-animate { transition-delay: 1.1s; }
+[data-aos-delay="1150"].aos-animate { transition-delay: 1.15s; }
+
+
+/* two time */
+
+[data-aos] {
+    transition-property: opacity, transform;
+    transition-duration: var(--aos-duration, 1s);
+    transition-delay: var(--aos-delay, 0s);
+}
+
+[data-aos].aos-animate {
+    transition-delay: var(--aos-delay, 0s);
+}
+
+/* Define duration values */
+[data-aos-duration="1150"] { --aos-duration: 1.15s; }
+[data-aos-duration="1200"] { --aos-duration: 1.2s; }
+[data-aos-duration="1250"] { --aos-duration: 1.25s; }
+[data-aos-duration="1300"] { --aos-duration: 1.3s; }
+[data-aos-duration="1350"] { --aos-duration: 1.35s; }
+[data-aos-duration="1400"] { --aos-duration: 1.4s; }
+[data-aos-duration="1450"] { --aos-duration: 1.45s; }
+[data-aos-duration="1500"] { --aos-duration: 1.5s; }
+[data-aos-duration="1550"] { --aos-duration: 1.55s; }
+[data-aos-duration="1600"] { --aos-duration: 1.6s; }
+[data-aos-duration="1650"] { --aos-duration: 1.65s; }
+[data-aos-duration="1700"] { --aos-duration: 1.7s; }
+[data-aos-duration="1750"] { --aos-duration: 1.75s; }
+[data-aos-duration="1800"] { --aos-duration: 1.8s; }
+[data-aos-duration="1850"] { --aos-duration: 1.85s; }
+[data-aos-duration="1900"] { --aos-duration: 1.9s; }
+[data-aos-duration="1950"] { --aos-duration: 1.95s; }
+[data-aos-duration="2000"] { --aos-duration: 2s; }
+[data-aos-duration="2050"] { --aos-duration: 2.05s; }
+[data-aos-duration="2100"] { --aos-duration: 2.1s; }
+[data-aos-duration="2150"] { --aos-duration: 2.15s; }
+
+/* Define delay values */
+[data-aos-delay="1150"].aos-animate { --aos-delay: 1.15s; }
+[data-aos-delay="1200"].aos-animate { --aos-delay: 1.2s; }
+[data-aos-delay="1250"].aos-animate { --aos-delay: 1.25s; }
+[data-aos-delay="1300"].aos-animate { --aos-delay: 1.3s; }
+[data-aos-delay="1350"].aos-animate { --aos-delay: 1.35s; }
+[data-aos-delay="1400"].aos-animate { --aos-delay: 1.4s; }
+[data-aos-delay="1450"].aos-animate { --aos-delay: 1.45s; }
+[data-aos-delay="1500"].aos-animate { --aos-delay: 1.5s; }
+[data-aos-delay="1550"].aos-animate { --aos-delay: 1.55s; }
+[data-aos-delay="1600"].aos-animate { --aos-delay: 1.6s; }
+[data-aos-delay="1650"].aos-animate { --aos-delay: 1.65s; }
+[data-aos-delay="1700"].aos-animate { --aos-delay: 1.7s; }
+[data-aos-delay="1750"].aos-animate { --aos-delay: 1.75s; }
+[data-aos-delay="1800"].aos-animate { --aos-delay: 1.8s; }
+[data-aos-delay="1850"].aos-animate { --aos-delay: 1.85s; }
+[data-aos-delay="1900"].aos-animate { --aos-delay: 1.9s; }
+[data-aos-delay="1950"].aos-animate { --aos-delay: 1.95s; }
+[data-aos-delay="2000"].aos-animate { --aos-delay: 2s; }
+[data-aos-delay="2050"].aos-animate { --aos-delay: 2.05s; }
+[data-aos-delay="2100"].aos-animate { --aos-delay: 2.1s; }
+[data-aos-delay="2150"].aos-animate { --aos-delay: 2.15s; }
+
+
+/* 3rd time*/
+
+[data-aos][data-aos-delay="2150"],
+body[data-aos-delay="2150"] [data-aos] {
+    transition-delay: 0s;
+}
+[data-aos][data-aos-delay="2150"].aos-animate,
+body[data-aos-delay="2150"] [data-aos].aos-animate {
+    transition-delay: 2.15s;
+}
+
+[data-aos][data-aos-duration="2200"],
+body[data-aos-duration="2200"] [data-aos] {
+    transition-duration: 2.2s;
+}
+
+[data-aos][data-aos-delay="2200"],
+body[data-aos-delay="2200"] [data-aos] {
+    transition-delay: 0s;
+}
+
+[data-aos][data-aos-delay="2200"].aos-animate,
+body[data-aos-delay="2200"] [data-aos].aos-animate {
+    transition-delay: 2.2s;
+}
+
+/* Repeating structure for increasing durations */
+@for $i from 2250 through 3000 by 50 {
+    [data-aos][data-aos-duration="#{$i}"],
+    body[data-aos-duration="#{$i}"] [data-aos] {
+        transition-duration: #{$i / 1000}s;
+    }
+
+    [data-aos][data-aos-delay="#{$i}"],
+    body[data-aos-delay="#{$i}"] [data-aos] {
+        transition-delay: 0s;
+    }
+
+    [data-aos][data-aos-delay="#{$i}"].aos-animate,
+    body[data-aos-delay="#{$i}"] [data-aos].aos-animate {
+        transition-delay: #{$i / 1000}s;
+    }
+}
+
+[data-aos] {
+    pointer-events: none;
+}
+[data-aos].aos-animate {
+    pointer-events: auto;
+}
+
+/* Transition timing functions */
+[data-aos][data-aos-easing="linear"],
+body[data-aos-easing="linear"] [data-aos] {
+    transition-timing-function: cubic-bezier(0.25, 0.25, 0.75, 0.75);
+}
+
+[data-aos][data-aos-easing="ease"],
+body[data-aos-easing="ease"] [data-aos] {
+    transition-timing-function: ease;
+}
+
+[data-aos][data-aos-easing="ease-in"],
+body[data-aos-easing="ease-in"] [data-aos] {
+    transition-timing-function: ease-in;
+}
+
+[data-aos][data-aos-easing="ease-out"],
+body[data-aos-easing="ease-out"] [data-aos] {
+    transition-timing-function: ease-out;
+}
+
+[data-aos][data-aos-easing="ease-in-out"],
+body[data-aos-easing="ease-in-out"] [data-aos] {
+    transition-timing-function: ease-in-out;
+}
+
+[data-aos][data-aos-easing="ease-in-back"],
+body[data-aos-easing="ease-in-back"] [data-aos] {
+    transition-timing-function: cubic-bezier(0.6, -0.28, 0.735, 0.045);
+}
+
+[data-aos][data-aos-easing="ease-out-back"],
+body[data-aos-easing="ease-out-back"] [data-aos] {
+    transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+[data-aos][data-aos-easing="ease-in-out-back"],
+body[data-aos-easing="ease-in-out-back"] [data-aos] {
+    transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* 4th time */ 
+
+
+[data-aos][data-aos][data-aos-easing=ease-in-sine],
+body[data-aos-easing=ease-in-sine] [data-aos] {
+    transition-timing-function: cubic-bezier(.47, 0, .745, .715);
+}
+
+[data-aos][data-aos][data-aos-easing=ease-out-sine],
+body[data-aos-easing=ease-out-sine] [data-aos] {
+    transition-timing-function: cubic-bezier(.39, .575, .565, 1);
+}
+
+[data-aos][data-aos][data-aos-easing=ease-in-out-sine],
+body[data-aos-easing=ease-in-out-sine] [data-aos] {
+    transition-timing-function: cubic-bezier(.445, .05, .55, .95);
+}
+
+[data-aos][data-aos][data-aos-easing=ease-in-quad],
+body[data-aos-easing=ease-in-quad] [data-aos] {
+    transition-timing-function: cubic-bezier(.55, .085, .68, .53);
+}
+
+[data-aos][data-aos][data-aos-easing=ease-out-quad],
+body[data-aos-easing=ease-out-quad] [data-aos] {
+    transition-timing-function: cubic-bezier(.25, .46, .45, .94);
+}
+
+[data-aos][data-aos][data-aos-easing=ease-in-out-quad],
+body[data-aos-easing=ease-in-out-quad] [data-aos] {
+    transition-timing-function: cubic-bezier(.455, .03, .515, .955);
+}
+
+[data-aos^=fade] {
+    opacity: 0;
+    transition-property: opacity, transform;
+}
+
+[data-aos^=fade].aos-animate {
+    opacity: 1;
+    transform: none;
+}
+
+[data-aos=fade-up] {
+    transform: translate3d(0, 100px, 0);
+}
+
+[data-aos=fade-down] {
+    transform: translate3d(0, -100px, 0);
+}
+
+[data-aos=fade-right] {
+    transform: translate3d(-100px, 0, 0);
+}
+
+[data-aos=fade-left] {
+    transform: translate3d(100px, 0, 0);
+}
+
+[data-aos^=zoom] {
+    opacity: 0;
+    transition-property: opacity, transform;
+}
+
+[data-aos^=zoom].aos-animate {
+    opacity: 1;
+    transform: translateZ(0) scale(1);
+}
+
+[data-aos=zoom-in] {
+    transform: scale(.6);
+}
+
+[data-aos=zoom-out] {
+    transform: scale(1.2);
+}
+
+[data-aos^=slide] {
+    transition-property: transform;
+    visibility: hidden;
+}
+
+[data-aos^=slide].aos-animate {
+    visibility: visible;
+    transform: translateZ(0);
+}
+
+[data-aos=slide-up] {
+    transform: translate3d(0, 100%, 0);
+}
+
+[data-aos=slide-down] {
+    transform: translate3d(0, -100%, 0);
+}
+
+[data-aos=flip-left] {
+    transform: perspective(2500px) rotateY(-100deg);
+}
+
+[data-aos=flip-left].aos-animate {
+    transform: perspective(2500px) rotateY(0);
+}
+
+[data-aos=flip-right] {
+    transform: perspective(2500px) rotateY(100deg);
+}
+
+[data-aos=flip-right].aos-animate {
+    transform: perspective(2500px) rotateY(0);
+}
+
+
+    
   </style>
 <script>
     window.tailwind.config = {
@@ -78,7 +414,7 @@
       }), ]
     };
   </script>
-  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+  /* <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" /> */
 
 
 </head>
@@ -91,7 +427,7 @@
       <p class="text-base dark:text-gray-400 sm:text-lg">On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms.</p>
     </div>
     <div class="grid grid-cols-2 mt-5 gap-y-5 sm:gap-y-0 lg:mx-auto lg:max-w-4xl">
-      <div class="col-span-2 sm:col-span-1"><img class="w-full bg-gray-50" alt="No alt" src="img/cafe2.jpeg" /></div>
+      <div class="col-span-2 sm:col-span-1"><img class="w-full bg-gray-50" alt="No alt" src="/img/cafe2.jpeg" /></div>
       <div class="col-span-2 px-3 pb-3 dark:border-slate-700 border-gray-50 sm:col-span-1 sm:flex sm:flex-col sm:justify-center sm:pl-7 sm:border-t lg:border-r">
         <h1 class="font-semibold text-gray-700 tracking-tight text-xl dark:text-gray-200 dark:divide-undefined sm:mb-2 md:my-1">Transfer Money</h1>
         <p class="text-base font-normal tracking-tight leading-relaxed dark:divide-undefined dark:text-gray-300">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics,</p>
@@ -100,7 +436,7 @@
         <h1 class="font-semibold text-gray-700 tracking-tight text-xl dark:text-gray-200 dark:divide-undefined sm:mb-2 md:my-1">Credit Card Payment</h1>
         <p class="text-base font-normal tracking-tight leading-relaxed dark:divide-undefined dark:text-gray-300">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident,</p>
       </div>
-      <div class="col-span-2 order-2 sm:col-span-1 sm:order-none"><img class="w-full bg-gray-50" alt="No alt" src="img/cafe3.jpg" /></div>
+      <div class="col-span-2 order-2 sm:col-span-1 sm:order-none"><img class="w-full bg-gray-50" alt="No alt" src="/img/cafe3.jpg" /></div>
     </div>
   </div>
   &nbsp;
