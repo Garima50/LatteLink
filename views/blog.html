@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BLOG POSTS</title>
+  <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-image: url("https://www.nasa.gov/sites/all/themes/custom/nasatwo/images/starfield-bannercar.jpg");
+      font-family: 'Lato', sans-serif;
+      color: #fff;
+    }
+
+    .blog-title {
+      text-align: center;
+      font-size: 2.5em;
+      font-family: 'Oswald', sans-serif;
+      margin: 20px 0;
+      text-transform: uppercase;
+      color: black;
+      letter-spacing: 2px;
+    }
+
+    .wrap {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-gap: 10px;
+      padding: 0.5em;
+      perspective: 500px;
+    }
+
+    .article {
+      display: flex;
+      flex-direction: column;
+      height: 300px;
+      position: relative;
+      background-size: cover;
+      border-radius: 7px;
+      overflow: hidden;
+      padding: 1em;
+      cursor: pointer;
+      transform: rotateX(0deg) rotateY(0deg);
+      transition: all 0.2s linear;
+      will-change: transform;
+    }
+
+    .article:nth-child(5n+1) {
+      background-image: url("img/caramel.jpg");
+    }
+
+    .article:nth-child(5n+2) {
+      background-image: url("img/vienna.jpg");
+    }
+
+    .article:nth-child(5n+3) {
+      background-image: url("img/affogato2.jpg");
+    }
+
+    .article:nth-child(5n+4) {
+      background-image: url("img/macchiato2.png");
+    }
+
+    .article:nth-child(5n+5) {
+      background-image: url("img/cheesecake2.jpg");
+    }
+
+    .article:nth-child(5n+6) {
+      background-image: url("img/vanillacupcake.jpg");
+    }
+
+    .overlay {
+      width: 100%;
+      height: 100%;
+      background-image: radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.3) 20%, rgba(0, 0, 0, 0.4) 50%);
+      position: absolute;
+      left: 0;
+      top: 0;
+      z-index: 1;
+    }
+
+    .article h1 {
+      font-size: 1.5em;
+      font-family: 'Oswald';
+      margin-top: auto;
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .article h1 {
+      transform: translateY(-20px)
+    }
+
+    .article h1 span {
+      color: #fff;
+    }
+
+    .article span.cat {
+      letter-spacing: 2px;
+      font-weight: bold;
+      font-family: 'Lato', sans-serif;
+      position: relative;
+      z-index: 2;
+      pointer-events: none;
+      overflow: hidden;
+      color: #fff;
+    }
+
+    @media screen and (min-width: 1000px) {
+      .wrap {
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        grid-gap: 20px;
+        padding: 1em;
+      }
+
+      .article h1 {
+        transform: translateY(0px);
+      }
+
+      .article:hover h1 {
+        transform: translateY(-20px)
+      }
+
+      .article span.cat {
+        color: transparent;
+      }
+
+      .article span.cat::before,
+      .article span.cat::after {
+        content: attr(data-hover);
+        position: absolute;
+        display: inline-block;
+        left: 0;
+        top: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        max-width: 0%;
+        transition: max-width 300ms ease-out;
+      }
+
+      .article span.cat::before {
+        color: black;
+        transition-delay: 100ms;
+      }
+
+      .article span.cat::after {
+        color: white;
+      }
+
+      .article:hover span.cat:after,
+      .article:hover span.cat:before {
+        max-width: 100%;
+      }
+
+      .article:hover span.cat:after {
+        transition-delay: 300ms;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="blog-title">BLOG POSTS</div>
+
+  <div class="wrap">
+
+    <a href="blog1.html" style="text-decoration: underline transparent;">
+    <div class="article">
+      
+      <div class="overlay"></div> 
+      <div class="wrap-cat"> 
+        <span class="cat" data-hover="ENJOY THIS CARAMELLY FLAVOUR!">ENJOY THIS CARAMELLY FLAVOUR!</span>
+      </div>
+      <h1> 
+        <span>Caramel Frappe: All facts</span>
+      </h1>
+     
+    </div>
+    </a>
+
+    <div class="article">
+      <div class="overlay"></div>
+      <div class="wrap-cat">
+        <span class="cat" data-hover="HEYY PEOPLE">HEYY PEOPLE</span>
+      </div>
+      <h1>
+        <span>Try this Vienna Coffee! and you'll never stop..</span>
+      </h1>
+    </div>
+    <div class="article">
+      <div class="overlay"></div>
+      <div class="wrap-cat">
+        <span class="cat" data-hover="A MUST VISIT">A MUST VISIT</span>
+      </div>
+      <h1>
+        <span>Affogato is what you need...</span>
+      </h1>
+    </div>
+    <div class="article">
+      <div class="overlay"></div>
+      <div class="wrap-cat">
+        <span class="cat" data-hover="WOW COFFEE">WOW COFFEE</span>
+      </div>
+      <h1>
+        <span>Macchiato is the ultimate solution!!!</span>
+      </h1>
+    </div>
+    <div class="article">
+      <div class="overlay"></div>
+      <div class="wrap-cat">
+        <span class="cat" data-hover="A MUST TRYY">A MUST TRYY</span>
+      </div>
+      <h1>
+        <span>Melts in the mouth...</span>
+      </h1>
+    </div>
+    <div class="article">
+      <div class="overlay"></div>
+      <div class="wrap-cat">
+        <span class="cat" data-hover="HELLO VANILLA">HELLO VANILLA</span>
+      </div>
+      <h1>
+        <span>Must try.. Vanilla Cupcakes</span>
+      </h1>
+    </div>
+  </div>
+
+  <script>
+   
+   let articles = document.querySelectorAll(".article");
+
+articles.forEach(i => {
+  i.addEventListener(
+    "mousemove",
+    e => {
+      let mouseX = e.offsetX;
+      let mouseY = e.offsetY;
+      i.querySelector(".overlay")
+        .style.setProperty(
+        "background-image",
+        `radial-gradient(circle at ${(mouseX) * 100  / -i.offsetWidth+100}% ${(mouseY) * 100  / -i.offsetHeight+100}%,rgba(0,0,0,0.2) 25%,rgba(0,0,0,0.33) 50%)`
+      );
+      i.style.setProperty("transform", `rotateY(${  ( ( (mouseX*100) / i.offsetWidth - 50 ) / 100) * 2}deg) rotateX(${  ( ( (mouseY*100) / i.offsetHeight - 50 ) / 100) * 2}deg) `
+)
+    },
+    false
+  );
+  i.addEventListener("mouseleave",()=>{
+    i.style.setProperty("transform",`rotateX(0deg) rotateY(0deg)`);
+    
+          i.querySelector(".overlay")
+        .style.setProperty(
+        "background-image",
+        `radial-gradient(circle at 50% 50%,rgba(0,0,0,0.2) 20%,rgba(0,0,0,0.3) 50%)`
+      );
+  })
+});
+
+
+  </script>
+
+</body>
+</html>

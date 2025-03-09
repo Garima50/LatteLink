@@ -1,213 +1,166 @@
-// import moduless
-const http = require('http');
-const fs = require('fs');
-const path = require('path');
-
-// Function to handle errors (response)
-function handleError(res, errorCode, message) {
-    res.statusCode = errorCode;
-    res.write(message);
-    res.end();
-}
-
-// Create the server
-const server = http.createServer((req, res) => {
-    const ext = path.extname(req.url);
-    // set MIME types
-    const contentTypeMap = {
-        '.html': 'text/html',
-        '.css': 'text/css',
-        '.js': 'application/javascript',
-        '.png': 'image/png',
-        '.jpg': 'image/jpeg',
-        '.jpeg': 'image/jpeg',
-        '.gif': 'image/gif',
-        '.svg': 'image/svg+xml'
-    };
-
-    // Handle static files (CSS, JS, images)
-    if (contentTypeMap[ext]) {
-        let staticFilePath = path.join(__dirname, 'public', req.url);
-
-        // Check if the request is for the css or img folder and update the path
-        if (req.url.startsWith('/css/')) {
-            staticFilePath = path.join(__dirname, 'public', 'css', path.basename(req.url));
-        } else if (req.url.startsWith('/img/')) {
-            staticFilePath = path.join(__dirname, 'public', 'img', path.basename(req.url));
-        }
-
-        fs.readFile(staticFilePath, (err, data) => {
-            if (err) {
-                handleError(res, 404, 'Static file not found');
-            } else {
-                res.setHeader('Content-Type', contentTypeMap[ext] || 'application/octet-stream');
-                res.statusCode = 200;
-                res.write(data);
-                res.end();
-            }
-        });
-        return;
-    }
-
-    // Handle routes
-    if (req.method === 'GET') {
-        const routes = {
-            '/': 'index.html',
-            '/contact': 'contact.html',
-            '/about': 'about.html',
-            '/gallery': 'gallery.html',
-            '/blog': 'blog.html',
-            '/blog1': 'blog1.html',
-            '/menu': 'menu.html',
-            '/terms': 'terms.html',
-            '/cart': 'cart.html',
-            '/login': 'login.html',
-            '/register': 'register.html'
-        };
-
-        if (routes[req.url]) {
-            const pagePath = path.join(__dirname, 'public', routes[req.url]);
-            fs.readFile(pagePath, 'utf8', (err, data) => {
-                if (err) {
-                    handleError(res, 500, `Error loading ${req.url} page`);
-                } else {
-                    res.setHeader('Content-Type', 'text/html');
-                    res.statusCode = 200;
-                    res.write(data);
-                    res.end();
-                }
-            });
-        } else {
-            handleError(res, 404, 'Page not found');
-        }
-    } else if (req.method === 'POST') {
-        if (req.url === '/register') { // for register page
-            let body = '';
-
-            // Collect request body data
-            req.on('data', chunk => {
-                body += chunk.toString(); // Collect the request body
-            });
-
-            req.on('end', () => {
-                try {
-                    // Parse the JSON data
-                    const userData = JSON.parse(body);
-
-                    // Validate the user data
-                    if (!userData.username || !userData.email || !userData.password) {
-                        handleError(res, 400, 'Missing required fields');
-                        return;
-                    }
-
-                    // Check if user already exists
-                    fs.readFile(path.join(__dirname, 'users.json'), 'utf8', (err, data) => {
-                        let users = [];
-                        if (data) {
-                            try {
-                                users = JSON.parse(data);
-                            } catch (err) {
-                                handleError(res, 500, 'Error parsing users file');
-                                return;
-                            }
-                        }
-
-                        // Check for existing user
-                        const userExists = users.some(user => user.username === userData.username || user.email === userData.email);
-                        if (userExists) {
-                            handleError(res, 400, 'Username or email already exists!');
-                            return;
-                        }
-
-                        // Add the new user
-                        users.push(userData);
-
-                        // Save the updated user data to the file
-                        fs.writeFile(path.join(__dirname, 'users.json'), JSON.stringify(users, null, 2), (err) => {
-                            if (err) {
-                                handleError(res, 500, 'Error saving user data');
-                                return;
-                            }
-
-                            res.statusCode = 200;
-                            res.write('Registration successful!');
-                            res.end();
-                        });
-                    });
-                } catch (err) {
-                    handleError(res, 400, 'Invalid JSON data');
-                }
-            });
-        } else if (req.url === '/login') {
-            let body = '';
-
-            // Collect request body data
-            req.on('data', chunk => {
-                body += chunk.toString(); // Collect the request body
-            });
-
-            req.on('end', () => {
-                try {
-                    // Parse the JSON data
-                    const loginData = JSON.parse(body);
-
-                    // Validate the login data
-                    if (!loginData.username || !loginData.password) {
-                        handleError(res, 400, 'Missing username or password');
-                        return;
-                    }
+const express = require('express'); // Express for routing and middleware management
+const path = require('path'); // Path to handle file paths
+const helmet = require('helmet'); // Import Helmet for security
+const morgan = require('morgan'); // Import Morgan for logging
+const rateLimit = require('express-rate-limit'); // Import express-rate-limit
+const compression = require('compression'); // Import compression middleware
+const cors = require('cors'); // Import CORS
+// const cookieParser = require('cookie-parser'); // Import cookie-parser middleware
 
 
-                    // Check if user exists and validate password
-                    fs.readFile(path.join(__dirname, 'users.json'), 'utf8', (err, data) => {
-                        if (err) {
-                            handleError(res, 500, 'Error reading users file');
-                            return;
-                        }
+const app = express();
+const PORT = 8080;
 
-                        let users = [];
-                        if (data) {
-                            try {
-                                users = JSON.parse(data);
-                            } catch (err) {
-                                handleError(res, 500, 'Error parsing users file');
-                                return;
-                            }
-                        }
+app.use(cors());
 
-                        // Find user by username or email
-                        const user = users.find(u => u.username === loginData.username || u.email === loginData.username);
+// Import middlewares
+const logger = require('./middlewares/logger'); // Import logger middleware
+const errorHandler = require('./middlewares/errorHandler'); // Import error handler middleware
+//const { NotFoundError, UnauthorizedError, BadRequestError } = require('./middlewares/customErrors');
 
-                        if (!user) {
-                            handleError(res, 400, 'User not found');
-                            return;
-                        }
+// Force Compression Middleware 1 (Even for Small Responses)
+app.use(compression({ threshold: 0 })); // Compress everything, even small responses
 
-                        // Validate password
-                        if (user.password !== loginData.password) {
-                            handleError(res, 400, 'Incorrect password');
-                            return;
-                        }
-
-                        // Successful login
-                        res.statusCode = 200;
-                        res.write('Login successful!');
-                        res.end();
-                    });
-                } catch (err) {
-                    handleError(res, 400, 'Invalid JSON data');
-                }
-            });
-        } else {
-            handleError(res, 404, 'Route not found');
-        }
-    } else {
-        handleError(res, 405, 'Method Not Allowed');
-    }
+// Test API Route for Compression
+app.get('/api/test-compression', (req, res) => {
+  res.json({ message: "This is a compressed response!" }); // Send a large response to test compression
 });
 
-// Start the server on port 8080
-const PORT = 8080;
-server.listen(PORT, () => {
-    console.log(`Server is running at http://localhost:${PORT}`);
+// Use Helmet Middleware 2 for security best practices
+app.use(helmet()); // Enables security headers
+
+// app.use(cookieParser()); // Enable cookie parsing
+
+// Set a cookie
+// app.get('/api/set-cookie', (req, res) => {
+//   res.cookie('testCookie', 'HelloWorld', { httpOnly: true });
+//   res.json({ message: "Cookie has been set!" });
+// });
+
+// Read the cookie
+// app.get('/api/get-cookie', (req, res) => {
+//   const cookieValue = req.cookies.testCookie;
+//   res.json({ message: "Cookie received!", cookie: cookieValue });
+// });
+
+// Enable CORS (Allow requests from all origins)
+app.get('/api/test-cors', (req, res) => {
+  console.log("CORS test route hit!"); // Add this to debug
+  res.json({ message: "CORS is working!" });
+});
+
+// Use Morgan for logging HTTP requests
+app.use(morgan('dev')); // Logs HTTP requests in a concise format
+
+
+
+// Rate limiting middleware - Limits each IP to 100 requests per 15 minutes
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 2000, // Limit each IP to 100 requests per window
+  message: { error: "Too many requests, please try again later." }
+});
+app.use(limiter); // Apply rate limiting globally
+
+// Middleware to handle JSON and URL-encoded data in POST requests
+app.use(express.json()); // To parse JSON bodies
+app.use(express.urlencoded({ extended: true })); // To parse URL-encoded data
+
+// Use logger middleware for all incoming requests
+app.use(logger); // Log each request
+
+// Serve static files (HTML, CSS, JS) from the /public directory
+app.use(express.static(path.join(__dirname, 'public')));
+
+
+
+// Import API routes from apiRoutes.js
+const apiRoutes = require('./api/apiRoutes'); // Import the API routes for login and register functionality
+app.use('/api', apiRoutes); // Mount the API routes on /api path
+
+// Serve login.html at the root URL
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'login.html')); // Serve the login page at root URL
+});
+
+// Serve dashboard.html when user is authenticated
+app.get('/api/index', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'index.html')); // Serve the dashboard HTML file
+});
+
+// Serve about.html when navigating to /api/about
+app.get('/api/about', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'about.html')); // Serve the about page
+});
+
+// Serve destinations.html when navigating to /api/destinations
+app.get('/api/blog1', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'blog1.html')); // Serve the destinations page
+});
+
+// Serve register.html when user needs to register
+app.get('/api/register', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'register.html')); // Serve the register HTML file
+});
+
+app.get('/register', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'register.html'));
+});
+
+
+// Serve destinations.html when navigating to /api/destinations
+app.get('/api/blog', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'blog.html')); // Serve the destinations page
+});
+
+// Serve gallery.html when navigating to /api/gallery
+app.get('/api/gallery', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'gallery.html')); // Serve the destinations page
+});
+
+app.get('/api/contact', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'contact.html')); // Serve the destinations page
+});
+
+// Serve book.html when navigating to /api/book
+app.get('/api/menu', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'menu.html')); // Serve the Book Now page
+});
+
+// Serve testimonials.html when navigating to /api/testimonials
+app.get('/api/terms', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'terms.html')); // Serve the Testimonials page
+});
+
+// Test error route (Intentionally throws an error)
+app.get('/api/test-error', (req, res, next) => {
+  throw new Error("This is a test error for middleware testing!");
+});
+
+//Test 404 Not Found Error
+app.get('/api/not-found', (req, res, next) => {
+  next(new NotFoundError("The requested page does not exist!"));
+});
+
+// Test 401 Unauthorized Error
+app.get('/api/unauthorized', (req, res, next) => {
+  next(new UnauthorizedError("You need to log in to access this resource!"));
+});
+
+// Test 400 Bad Request Error
+app.get('/api/bad-request', (req, res, next) => {
+  next(new BadRequestError("Invalid input data!"));
+});
+
+// Handle undefined routes (404 Not Found)
+//app.use((req, res, next) => {
+//  next(new NotFoundError("This route does not exist!"));
+//});
+
+// Use error handler middleware for catching and handling errors
+app.use(errorHandler); // Handle errors globally
+
+// Start the server and listen on the specified port
+app.listen(PORT, () => {
+  console.log(`Server is running at http://localhost:${PORT}`);
 });

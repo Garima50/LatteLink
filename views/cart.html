@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Shopping Cart</title>
+    <link rel="stylesheet" href="../Public/css/cart.css">
+    <!-- <link rel="stylesheet" href="css/header.css"> -->
+</head>
+<body>
+
+ <br> <br>
+
+<h1>Shopping Cart</h1>
+
+<div class="shopping-cart">
+
+  <div class="column-labels">
+    <label class="product-image">Image</label>
+    <label class="product-details">Product</label>
+    <label class="product-size">Size</label> <!-- New Size Label -->
+    <label class="product-price">Price</label>
+    <label class="product-quantity">Quantity</label>
+    <label class="product-removal">Remove</label>
+    <label class="product-line-price">Total</label>
+  </div>
+
+  <div class="product" data-price="12795">
+    <div class="product-image">
+      <img src="img/vienna.jpg">
+    </div>
+    <div class="product-details">
+      <div class="product-title">Vienna Coffee</div>
+      <p class="product-description">The Air Max 90 LV8 takes your favourite silhouette to the next level with stacked Nike Air units.</p>
+    </div>
+    <div class="product-size"> <!-- New Size Dropdown -->
+      <select>
+        <option value="Small">Small</option>
+        <option value="Medium">Medium</option>
+        <option value="Medium">Large</option>
+      </select>
+    </div>
+    <div class="product-price">400</div>
+    <div class="product-quantity">
+      <input type="number" value="2" min="1">
+    </div>
+    <div class="product-removal">
+      <button class="remove-product">
+        Remove
+      </button>
+    </div>
+    <div class="product-line-price">25 590</div>
+  </div>
+
+  <div class="product" data-price="71817">
+    <div class="product-image">
+      <img src="img/vanillacupcake.jpg">
+    </div>
+    <div class="product-details">
+      <div class="product-title">Vanilla Cupcakes</div>
+      <p class="product-description">The Vanilla elevates the classic pump with a contemporary drop heel and square-cut vamp.</p>
+    </div>
+    <div class="product-size"> <!-- New Size Dropdown -->
+      <select>
+        <option value="Small">Small</option>
+        <option value="Medium">Medium</option>
+        <option value="Medium">Large</option>
+      </select>
+    </div>
+    <div class="product-price">350</div>
+    <div class="product-quantity">
+      <input type="number" value="1" min="1">
+    </div>
+    <div class="product-removal">
+      <button class="remove-product">
+        Remove
+      </button>
+    </div>
+    <div class="product-line-price">350</div>
+  </div>
+
+  <div class="totals">
+    <div class="totals-item">
+      <label>Subtotal</label>
+      <div class="totals-value" id="cart-subtotal">750</div>
+    </div>
+    <div class="totals-item">
+      <label>Tax (5%)</label>
+      <div class="totals-value" id="cart-tax">15</div>
+    </div>
+    <div class="totals-item">
+      <label>Shipping</label>
+      <div class="totals-value" id="cart-shipping">00.00</div>
+    </div>
+    <div class="totals-item totals-item-total">
+      <label>Grand Total</label>
+      <div class="totals-value" id="cart-total">765</div>
+    </div>
+  </div>
+      
+  <button class="checkout">Checkout</button>
+
+</div>
+
+<!-- Payment Modal -->
+<div id="payment-modal" class="modal">
+    <div class="modal-content">
+      <h2>Select Payment Method</h2>
+
+       <!-- Loader, initially hidden -->
+       <div id="loader" class="loader1" style="display: none;"></div>
+       
+      <div class="payment-options">
+        <label class="payment-option">
+          <input type="radio" name="payment" value="net-banking">
+          <img src="img/netb.jpg" alt="Net Banking"> Net Banking
+        </label>
+        <label class="payment-option">
+          <input type="radio" name="payment" value="google-pay">
+          <img src="img/gpay.png" alt="Google Pay"> Google Pay
+        </label>
+        <label class="payment-option">
+          <input type="radio" name="payment" value="upi">
+          <img src="img/upi.jpg" alt="UPI"> UPI
+        </label>
+        <label class="payment-option">
+          <input type="radio" name="payment" value="cod">
+          <img src="img/cod.png" alt="Cash on Delivery"> Cash on Delivery
+        </label>
+      </div>
+      <button id="continue-button" disabled>Continue</button>
+    </div>
+  </div>
+
+  <br> <br> <br> <br>
+  
+
+<!-- Add jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Your custom script -->
+<script>
+
+  /* Set rates + misc */
+var taxRate = 0.05; // Tax rate
+var shippingRate = 0.00; // Shipping rate
+var fadeTime = 300; // Fade time for animations
+
+/* Assign actions */
+$('.product-quantity input').change(function() {
+  updateQuantity(this); // Update quantity when changed
+});
+
+$('.product-removal button').click(function() {
+  removeItem(this); // Remove item from cart
+});
+
+/* Recalculate cart */
+function recalculateCart() {
+  var subtotal = 0;
+
+  /* Sum up row totals */
+  $('.product').each(function() {
+    // Get the line price as a float number without any currency symbols
+    var linePrice = parseFloat($(this).find('.product-line-price').text().replace(/,/g, '').trim());
+    subtotal += linePrice; // Add to subtotal
+  });
+
+  /* Calculate totals */
+  var tax = subtotal * taxRate; // Calculate tax
+  var shipping = (subtotal > 0 ? shippingRate : 0); // Determine shipping cost
+  var total = subtotal + tax + shipping; // Calculate total
+
+  /* Update totals display */
+  $('.totals-value').fadeOut(fadeTime, function() {
+    // Display values with the "₹" symbol, formatted for Indian currency
+    $('#cart-subtotal').html(subtotal.toLocaleString("en-IN", { minimumFractionDigits: 2 }));
+    $('#cart-tax').html(tax.toLocaleString("en-IN", { minimumFractionDigits: 2 }));
+    $('#cart-shipping').html(shipping.toLocaleString("en-IN", { minimumFractionDigits: 2 }));
+    $('#cart-total').html(total.toLocaleString("en-IN", { minimumFractionDigits: 2 }));
+
+    // Show or hide checkout button based on total
+    if (total === 0) {
+      $('.checkout').fadeOut(fadeTime);
+    } else {
+      $('.checkout').fadeIn(fadeTime);
+    }
+    $('.totals-value').fadeIn(fadeTime); // Show updated totals
+  });
+}
+
+/* Update quantity */
+function updateQuantity(quantityInput) {
+  var productRow = $(quantityInput).closest('.product'); // Get the product row
+  var price = parseFloat(productRow.data('price')); // Fetch price from data attribute
+  var quantity = parseFloat($(quantityInput).val()); // Get quantity value
+  var linePrice = price * quantity; // Calculate line price
+
+  /* Update line price display and recalculate cart totals */
+  productRow.find('.product-line-price').each(function() {
+    $(this).fadeOut(fadeTime, function() {
+      $(this).text(linePrice.toLocaleString("en-IN", { minimumFractionDigits: 2 })); // Display formatted line price
+      recalculateCart(); // Recalculate cart totals
+      $(this).fadeIn(fadeTime); // Show updated line price
+    });
+  });
+}
+
+/* Remove item from cart */
+function removeItem(removeButton) {
+  var productRow = $(removeButton).closest('.product'); // Get the product row
+  productRow.slideUp(fadeTime, function() {
+    productRow.remove(); // Remove product from the DOM
+    recalculateCart(); // Recalculate totals
+  });
+}
+
+
+
+// Get modal and button elements
+var modal = document.getElementById('payment-modal');
+var checkoutButton = document.querySelector('.checkout');
+var continueButton = document.getElementById('continue-button');
+var paymentOptions = document.querySelectorAll('input[name="payment"]');
+var loader = document.getElementById('loader');  // Get the loader element
+
+// Show modal when checkout button is clicked
+checkoutButton.addEventListener('click', async function() {
+    loader.style.display = 'block';  // Show the loader while fetching payment methods
+
+    // Asynchronously fetch available payment methods
+    await fetchPaymentMethods();
+
+    loader.style.display = 'none';  // Hide the loader after fetching
+    modal.style.display = 'flex';  // Show the modal
+});
+
+// Continue button click event
+continueButton.addEventListener('click', async function() {
+    if (!continueButton.disabled) {
+        loader.style.display = 'block'; // Show the loader during payment processing
+        modal.style.display = 'none'; // Hide the modal
+        
+        // Fetch and process the selected payment asynchronously
+        var selectedPayment = document.querySelector('input[name="payment"]:checked').value;
+        
+        try {
+            await processPayment(selectedPayment);  // Async payment processing
+            loader.style.display = 'none';  // Hide loader after processing
+            // Redirect after successful payment processing
+            window.location.href = 'thanks.html';  // Thank you/confirmation page
+        } catch (error) {
+            loader.style.display = 'none';  // Hide loader in case of error
+            console.error("Payment failed: ", error);
+            alert('Payment failed, please try again.');
+        }
+    }
+});
+
+// Enable continue button only after a payment option is selected
+paymentOptions.forEach(function(option) {
+    option.addEventListener('change', function() {
+        continueButton.disabled = false;  // Enable continue button
+    });
+});
+
+// Function to simulate asynchronous fetching of payment methods (e.g., from an API)
+async function fetchPaymentMethods() {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            console.log('Fetched payment methods'); 
+            resolve();
+        }, 1000); // Simulate 1 second API fetch time
+    });
+}
+
+// Function to simulate asynchronous payment processing
+async function processPayment(paymentMethod) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            if (paymentMethod) {
+                console.log(`Payment processed via ${paymentMethod}`);
+                resolve();  // Resolve the promise to simulate successful payment
+            } else {
+                reject('No payment method selected');  // Reject in case of failure
+            }
+        }, 2000); // Simulate 2 second payment processing time
+    });
+}
+
+</script>
+
+</body>
+</html>
