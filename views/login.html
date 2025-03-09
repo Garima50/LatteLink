@@ -93,55 +93,17 @@
         <!-- <label>
             <input type="checkbox" id="showPassword"> Show Password
         </label> -->
-
-
-        <button type="submit">Login</button>
+        <button id="login">Login</button>
     </div>
-
         <div id="message" class="message"></div>
         <p>Don't have an account? <a href="/api/register">Register here</a></p>
     
     </div>
-
 
     </body>
     <script src="/api/loginScript.js" >
         
     </script>
 
-
-     <!-- <script>
-
-document.getElementById('login-form').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent form from submitting normally
-
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-    const messageDiv = document.getElementById('message');
-
-    fetch('/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
-    })
-    .then(response => response.text())
-    .then(data => {
-        if (data.includes('successful')) {
-            alert('Login successful!');
-            window.location.href = '/api/index'; // Redirect to homepage
-        } else {
-            messageDiv.textContent = data; // Show error message
-            messageDiv.style.color = 'red';
-        }
-    })
-    .catch(error => {
-        console.error('Login error:', error);
-        messageDiv.textContent = "An error occurred.";
-    });
-});
-
-    </script>  -->
-
-</body>
 
 </html>
