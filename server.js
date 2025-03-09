@@ -5,15 +5,15 @@ const morgan = require('morgan'); // Import Morgan for logging
 const rateLimit = require('express-rate-limit'); // Import express-rate-limit
 // const compression = require('compression'); // Import compression middleware
 const cors = require('cors'); // Import CORS
-// const cookieParser = require('cookie-parser'); // Import cookie-parser middleware
+ const cookieParser = require('cookie-parser'); // Import cookie-parser middleware
 
-
+// router level middleware
 const app = express();
 app.use(express.static(path.join(__dirname, 'public')));
 
 const PORT = 8080;
 
-
+// third party middleware
  app.use(cors());
 
 // Import middlewares
@@ -21,24 +21,38 @@ const logger = require('./middlewares/logger'); // Import logger middleware
 const errorHandler = require('./middlewares/errorHandler'); // Import error handler middleware
 //const { NotFoundError, UnauthorizedError, BadRequestError } = require('./middlewares/customErrors');
 
-// Use Helmet Middleware 3 for security best practices
+// Use Helmet Middleware 3 for security best practices (third party)
 app.use(helmet()); // Enables security headers
 
 // Enable CORS middleware 4 (Allow requests from all origins)
-app.get('/api/test-cors', (req, res) => {
-  console.log("CORS test route hit!"); // Add this to debug
-  res.json({ message: "CORS is working!" });
+// app.get('/api/test-cors', (req, res) => {
+//   console.log("CORS test route hit!"); // Add this to debug
+//   res.json({ message: "CORS is working!" });
+// });
+
+// cookie-parsing middleware
+app.use(cookieParser()); // Enable cookie parsing
+// Set a cookie
+app.get('/api/set-cookie', (req, res) => {
+  res.cookie('testCookie', 'HelloWorld', { httpOnly: true });
+  res.json({ message: "Cookie has been set!" });
 });
+
+// Read the cookie
+app.get('/api/get-cookie', (req, res) => {
+  const cookieValue = req.cookies.testCookie;
+  res.json({ message: "Cookie received!", cookie: cookieValue });
+});
+
 
 // // Use Morgan for logging HTTP requests
  app.use(morgan('dev')); // Logs HTTP requests in a concise format
 
 
-
-// Rate limiting middleware - Limits each IP to 100 requests per 15 minutes
+// Rate limiting middleware - Limits each IP to 2000 requests per 15 minutes
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 2000, // Limit each IP to 100 requests per window
+  max: 2000, // Limit each IP to 2000 requests per window
   message: { error: "Too many requests, please try again later." }
 });
 app.use(limiter); // Apply rate limiting globally
@@ -61,24 +75,24 @@ app.get('/', (req, res) => {
 });
 
 app.get('/login', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'login.html')); // Serve the login page at root URL
+  res.sendFile(path.join(__dirname, 'views', 'login.html')); // Serve the login page at login URL
 });
 
-// Serve dashboard.html when user is authenticated
+// Serve index.html when user is authenticated
 app.get('/api/index', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'index.html')); // Serve the dashboard HTML file
 });
 
-app.get('/index', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'index.html')); // Serve the dashboard HTML file
-});
+// app.get('/index', (req, res) => {
+//   res.sendFile(path.join(__dirname, 'views', 'index.html')); // Serve the dashboard HTML file
+// });
 
 // Serve about.html when navigating to /api/about
 app.get('/api/about', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'about.html')); // Serve the about page
 });
 
-// Serve destinations.html when navigating to /api/destinations
+// Serve blog1.html when navigating to /api/blog1
 app.get('/api/blog1', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'blog1.html')); // Serve the destinations page
 });
@@ -93,7 +107,7 @@ app.get('/register', (req, res) => {
 });
 
 
-// Serve destinations.html when navigating to /api/destinations
+// Serve blog.html when navigating to /api/blog
 app.get('/api/blog', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'blog.html')); // Serve the destinations page
 });
@@ -107,7 +121,7 @@ app.get('/api/contact', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'contact.html')); // Serve the destinations page
 });
 
-// Serve book.html when navigating to /api/book
+// Serve menu.html when navigating to /api/menu
 app.get('/api/menu', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'menu.html')); // Serve the Book Now page
 });
