@@ -24,8 +24,12 @@ router.post('/login', (req, res, next) => {
       return res.status(200).json({success:true}) // Redirect to dashboard.html
     } else {
       // If user doesn't exist, redirect to the register page
+
       return res.status(200).json({success:false}) // Redirect to dashboard.html
       // return res.status(302).redirect('/api/register') // Redirect to register.html
+
+      //return res.status(302).redirect('/api/index') // Redirect to register.html
+
     }
   })
 })
